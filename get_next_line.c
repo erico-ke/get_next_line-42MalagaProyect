@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erico-ke <erico-ke@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erico-ke <erico-ke@42malaga.student.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:45:12 by erico-ke          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/10/24 01:20:12 by erico-ke         ###   ########.fr       */
+=======
+/*   Updated: 2024/10/23 19:22:32 by erico-ke         ###   ########.fr       */
+>>>>>>> refs/remotes/origin/main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +34,7 @@ char	*ft_read_line(int fd)
 }
 //Modificar, la devolucion de -1 no es util en el caso del join a menos que se agregue una condicion extra en la f_principal
 //Hay que manejar el resto de la funcion post join, guardar el resto de la linea.
+
 int	ft_full_line_check(char *line, int n_switch)
 {
 	int	i;
@@ -52,6 +57,7 @@ int	ft_full_line_check(char *line, int n_switch)
 }
 //quizas sea necesaria una funcion para liberar memorias en caso de error, si no se deberia agregar 
 //if(!variable){free(variables);return (NULL);} en muchos lados
+
 char	*get_next_line(int fd)
 {
 	char		*line;
