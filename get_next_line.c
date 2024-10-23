@@ -6,7 +6,7 @@
 /*   By: erico-ke <erico-ke@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:45:12 by erico-ke          #+#    #+#             */
-/*   Updated: 2024/10/22 14:21:16 by erico-ke         ###   ########.fr       */
+/*   Updated: 2024/10/24 01:20:12 by erico-ke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,11 @@ int	ft_full_line_check(char *line, int n_switch)
 			return (-1);
 	}
 	else if (n_switch == -2)
-	{
 		while (line[i])
 			i++;
-	}
 	else
-	{
 		while (line[i] && line[i] != '\n')
 			i++;
-	}
 	return (i);
 }
 //quizas sea necesaria una funcion para liberar memorias en caso de error, si no se deberia agregar 
