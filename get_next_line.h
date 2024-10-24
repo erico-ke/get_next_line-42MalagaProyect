@@ -6,7 +6,7 @@
 /*   By: erico-ke <erico-ke@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 20:30:45 by erico-ke          #+#    #+#             */
-/*   Updated: 2024/10/22 14:17:42 by erico-ke         ###   ########.fr       */
+/*   Updated: 2024/10/24 11:37:49 by erico-ke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);
-char	*ft_strjoin(char *s1, char *s2);
 int		ft_full_line_check(char *line, int n_switch);
+size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+size_t	ft_strlcat(char *dst, const char *src, size_t size);
 
 #endif

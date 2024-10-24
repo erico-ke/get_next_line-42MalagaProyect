@@ -6,7 +6,7 @@
 /*   By: erico-ke <erico-ke@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 20:12:58 by erico-ke          #+#    #+#             */
-/*   Updated: 2024/10/22 14:18:02 by erico-ke         ###   ########.fr       */
+/*   Updated: 2024/10/24 11:36:37 by erico-ke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,20 +57,4 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	}
 	dst[i] = '\0';
 	return (src_len);
-}
-
-char	*ft_strjoin(char *s1, char *s2)
-{
-	char	*ret;
-	size_t	size;
-
-	size = ft_strlen(s1) + ft_full_line_check(s2, 0) + 1;
-	ret = (char *) malloc(size);
-	if (!ret)
-		return (NULL);
-	ft_strlcpy(ret, s1, size);
-	ft_strlcat(ret, s2, size);
-	free(s2);
-	free(s1);
-	return (ret);
 }
