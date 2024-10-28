@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erico-ke <erico-ke@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erico-ke <erico-ke@42malaga.student.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:45:12 by erico-ke          #+#    #+#             */
-/*   Updated: 2024/10/24 16:11:29 by erico-ke         ###   ########.fr       */
+/*   Updated: 2024/10/28 15:52:55 by erico-ke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "get_next_line.h"
 
@@ -29,8 +28,6 @@ char	*ft_read_line(int fd)
 	}
 	return (buff);
 }
-//Modificar, la devolucion de -1 no es util en el caso del join a menos que se agregue una condicion extra en la f_principal
-//Hay que manejar el resto de la funcion post join, guardar el resto de la linea.
 
 int	ft_full_line_check(char *line, int n_switch)
 {
@@ -67,13 +64,11 @@ char	*ft_strjoin(char *s1, char *s2)
 	ft_strlcat(ret, s2, size);
 	if (ft_full_line_check(s2, -1) == -1)
 		free(s2);
-	/* Deleted s2 free, need to save the rest of the array if necesary */
 	return (ret);
 }
 
 char	*line_cutter(char *to_cut, int n_switch)
 {
-	int		i;
 	char	*c_l;
 	int		to_cut_len_one;
 	int		to_cut_len_cero;
@@ -82,7 +77,7 @@ char	*line_cutter(char *to_cut, int n_switch)
 	to_cut_len_cero = ft_strlen(to_cut + to_cut_len_one, 0);
 	if (n_switch == 0)
 	{
-		c_l = (char *) malloc (to_cut_len_one+ 1);
+		c_l = (char *) malloc (to_cut_len_one + 1);
 		ft_strlcpy(c_l, to_cut, to_cut_len_one + 1);
 		free(to_cut);
 	}
@@ -94,8 +89,6 @@ char	*line_cutter(char *to_cut, int n_switch)
 	}
 	return (c_l);
 }
-//quizas sea necesaria una funcion para liberar memorias en caso de error, si no se deberia agregar 
-//if(!variable){free(variables);return (NULL);} en muchos lados
 
 char	*get_next_line(int fd)
 {
@@ -108,10 +101,10 @@ char	*get_next_line(int fd)
 	if (!line_second_part)
 		line = ft_read_line(fd);
 	else
-		{
-			line = /* función que copie la parte restante de la linea que esta en alguna parte de line_second_part */;
-			line_second_part = NULL;
-		}
+	{
+		line = line_cutter(line_second_part, 1);
+		line_second_part = NULL;
+	}
 	while (ft_full_line_check(line, 1) == -1)
 	{
 		line_second_part = ft_read_line(fd);
