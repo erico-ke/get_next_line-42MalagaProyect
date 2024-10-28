@@ -6,19 +6,23 @@
 /*   By: erico-ke <erico-ke@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 20:12:58 by erico-ke          #+#    #+#             */
-/*   Updated: 2024/10/24 11:36:37 by erico-ke         ###   ########.fr       */
+/*   Updated: 2024/10/24 16:01:01 by erico-ke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen(const char *s, int n_switch)
 {
 	size_t	i;
 
 	i = 0;
-	while (s[i])
-		i++;
+	if (n_switch == 0)
+		while (s[i])
+			i++;
+	if (n_switch == 1)
+		while (s[i] != '\n')
+			i++;
 	return (i);
 }
 
@@ -38,7 +42,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	}
 	if (i < size)
 		dst[j] = '\0';
-	return (i + ft_strlen(src));
+	return (i + ft_strlen(src, 0));
 }
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
@@ -46,7 +50,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	size_t	i;
 	size_t	src_len;
 
-	src_len = ft_strlen(src);
+	src_len = ft_strlen(src, 0);
 	if (size == 0)
 		return (src_len);
 	i = 0;
