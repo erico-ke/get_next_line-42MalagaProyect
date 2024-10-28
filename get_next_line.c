@@ -6,7 +6,7 @@
 /*   By: erico-ke <erico-ke@42malaga.student.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:45:12 by erico-ke          #+#    #+#             */
-/*   Updated: 2024/10/28 15:52:55 by erico-ke         ###   ########.fr       */
+/*   Updated: 2024/10/28 16:58:22 by erico-ke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!ret)
 		return (NULL);
 	ft_strlcpy(ret, s1, size);
-	free(s1);
+	//free(s1); 
 	ft_strlcat(ret, s2, size);
-	if (ft_full_line_check(s2, -1) == -1)
-		free(s2);
+	/* if (!(ft_full_line_check(s2, -1) == -1))
+		free(s2); */
 	return (ret);
 }
 
@@ -105,7 +105,7 @@ char	*get_next_line(int fd)
 		line = line_cutter(line_second_part, 1);
 		line_second_part = NULL;
 	}
-	while (ft_full_line_check(line, 1) == -1)
+	while (ft_full_line_check(line, -1) == -1)
 	{
 		line_second_part = ft_read_line(fd);
 		end_check = ft_full_line_check(line_second_part, -2);
@@ -114,4 +114,20 @@ char	*get_next_line(int fd)
 			break ;
 	}
 	return (line);
+}
+
+int main(void)
+{
+	int fd;
+	fd = open("test.txt", O_RDONLY);
+	char *line = get_next_line(fd);
+	printf("%s\n", line);
+	/* int i = 0;
+	while (i != 1)
+	{
+		printf("%s", line);
+		free(line);
+		get_next_line(fd);
+		i++;
+	} */
 }
