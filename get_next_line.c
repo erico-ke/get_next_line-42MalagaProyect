@@ -6,7 +6,7 @@
 /*   By: erico-ke <erico-ke@42malaga.student.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:45:12 by erico-ke          #+#    #+#             */
-/*   Updated: 2024/10/28 16:58:22 by erico-ke         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:12:01 by erico-ke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_read_line(int fd)
 	buff = (char *) malloc (sizeof(char *) * (BUFFER_SIZE + 1));
 	if (!buff)
 		return (NULL);
-	read_lines = read(fd, buff, BUFFER_SIZE);
+	read_lines = read(fd, buff, 1);
 	if (read_lines < 0)
 	{
 		free(buff);
@@ -95,23 +95,24 @@ char	*get_next_line(int fd)
 	char		*line;
 	static char	*line_second_part;
 	int			end_check;
+	int			i;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!line_second_part)
 		line = ft_read_line(fd);
 	else
-	{
 		line = line_cutter(line_second_part, 1);
-		line_second_part = NULL;
-	}
-	while (ft_full_line_check(line, -1) == -1)
+	i = 0;
+	/* condicion para saber cuando termina la linea(salto de linea o nulo) */
+	while (line[i] != '\n')
 	{
 		line_second_part = ft_read_line(fd);
 		end_check = ft_full_line_check(line_second_part, -2);
 		line = ft_strjoin(line, line_second_part);
 		if (end_check < BUFFER_SIZE)
 			break ;
+		i ++;
 	}
 	return (line);
 }
@@ -122,12 +123,4 @@ int main(void)
 	fd = open("test.txt", O_RDONLY);
 	char *line = get_next_line(fd);
 	printf("%s\n", line);
-	/* int i = 0;
-	while (i != 1)
-	{
-		printf("%s", line);
-		free(line);
-		get_next_line(fd);
-		i++;
-	} */
 }
