@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erico-ke <erico-ke@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erico-ke <erico-ke@42malaga.student.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:45:12 by erico-ke          #+#    #+#             */
-/*   Updated: 2024/11/05 01:13:05 by erico-ke         ###   ########.fr       */
+/*   Updated: 2024/11/05 16:17:50 by erico-ke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,18 @@
 
 char	*ft_getline(int fd)
 {
-	void	*buff;
+	char	*buff;
 	int		check;
-	
-	buff = (char *)malloc(BUFFER_SIZE + 1);
+	//ft_calloc
+	buff = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char *));
 	if (!buff)
 		return (NULL);
 	check = read(fd, buff, BUFFER_SIZE);
-	if (check < 0)
+	if (check <= 0)
+	{
+		free(buff);
 		return (NULL);
+	}
 	return(buff);
 }
 
@@ -40,20 +43,25 @@ char	*get_next_line(int fd)
 {
 	static char	*line;
 	char		*temp_line;
-	char		*aux;
+
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!line)
 		line = ft_getline(fd);
+	if (!line)
+		return (NULL);
 	while (line[ft_jumpline_search(line)] != '\n')
 	{
 		temp_line = ft_getline(fd);
+		if (!temp_line)
+			return (NULL);
 		line = ft_strjoin(line, temp_line);
+		free(temp_line);
 	}
-	aux = line;
+	temp_line = line;
 	line = ft_strchr(line, '\n') + 1;
-	ft_strlcpy(temp_line, aux, ft_jumpline_search(aux) + 1);
+	temp_line[ft_jumpline_search(temp_line)] = '\0';
 	return(temp_line);
 }
 
@@ -61,12 +69,13 @@ char	*get_next_line(int fd)
 {
 	int fd;
 	fd = open("test.txt", O_RDONLY);
-	char *line = get_next_line(fd);
-	printf("%s\n\n\n\n", line);
-	int i = 0;
-	while (i < 9)
+	char *line;
+ 	int i = 0;
+  while (i < 42)
 	{
 		line = get_next_line(fd);
+		if (!line)
+			break;
 		printf("%s\n", line);
 		i++; 	
 	}
