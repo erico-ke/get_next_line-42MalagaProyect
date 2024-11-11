@@ -17,3 +17,6 @@ char *gnl(int fd)
 
 	return (line);
 }
+
+
+IMPORTANTE LIBERAR MEMORIA EN CASOS DE ERROR; TAMBIEN CUANDO RETURN NULL

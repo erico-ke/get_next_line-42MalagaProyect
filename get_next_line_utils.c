@@ -6,89 +6,105 @@
 /*   By: erico-ke <erico-ke@42malaga.student.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 20:12:58 by erico-ke          #+#    #+#             */
-/*   Updated: 2024/11/10 22:20:36 by erico-ke         ###   ########.fr       */
+/*   Updated: 2024/11/11 03:41:44 by erico-ke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	*ft_calloc(size_t nmemb, size_t size)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	char	*res;
-	int		i;
+	char	*str;
+	size_t	i;
+	size_t	c;
 
-	res = malloc(nmemb * size);
-	if (res == 0)
-		return (NULL);
-	i = 0;
-	while (res[i])
+	if (!s1)
 	{
-		res[i] = '\0';
-		i++;
+		s1 = malloc(sizeof(char) + 1);
+		if (!s1)
+			return (0);
+		s1[0] = 0;
 	}
-	return ((void *) res);
+	str = (char *)malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!str)
+	//POSIBLE ERROR EN VEZ DE 0 ES UN FREE DE s1
+		return (0);
+	i = -1;
+	while (s1[++i])
+		str[i] = s1[i];
+	c = -1;
+	while (s2[++c])
+		str[i + c] = s2[c];
+	str[i + c] = '\0';
+	free(s1);
+	return (str);
 }
 
 size_t	ft_strlen(char *s)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
-	while (s[i])
+	if (!s)
+		return (0);
+	while (s[i] != '\0')
 		i++;
 	return (i);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strchr(char *s, int c)
 {
-	char	*ret;
-	size_t	size;
-	size_t	i;
-	size_t	j;
+	int	i;
 
-	size = ft_strlen(s1) + ft_strlen(s2) + 1;
-	ret = (char *)ft_calloc(size, sizeof(char *));
-	if (!ret)
-		return (NULL);
 	i = 0;
-	while (s1[i])
+	while (s[i] != '\0')
 	{
-		ret[i] = s1[i];
+		if (s[i] == (char)c)
+			return (&((char *)s)[i]);
 		i++;
 	}
-	j = 0;
-	free(s1);
-	while (s2[j])
-	{
-		ret[i] = s2[j];
-		i++;
-		j++;
-	}
-	return (ret);
+	if ((char)c == '\0')
+		return (&((char *)s)[i]);
+	return (0);
 }
 
 char	*ft_substr(char *s, unsigned int start, size_t len)
 {
-	char	*res;
-	size_t	s_len;
 	size_t	i;
+	char	*res;
 
+	i = 0;
 	if (!s)
-		return (NULL);
-	s_len = ft_strlen(s);
-	/* if (start >= s_len)
-		return (ft_strdup("")); */
-	if (len > s_len - start)
-		len = s_len - start;
-	res = malloc(len + 1);
+		return (0);
+	if (start > ft_strlen(s))
+	{
+		res = malloc(sizeof(char) * (1));
+		if (!res)
+			return (NULL);
+		res[0] = '\0';
+		return (res);
+	}
+	if (ft_strlen(s) - start < len)
+		len = ft_strlen(s) - start;
+	res = malloc(sizeof(char) * (len + 1));
 	if (!res)
 		return (NULL);
-	i = 0;
-	while (*(s + start) != '\0')
-	{
-		res[i] = *(s + start);
-		i++;
-		s++;
-	}
+	while (start < ft_strlen(s) && i < len && s[start])
+		res[i++] = s[start++];
+	res[i] = '\0';
 	return (res);
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	unsigned char	*tmp;
+	size_t			i;
+
+	i = 0;
+	tmp = malloc(count * size);
+	if (!tmp)
+		return (NULL);
+	while (i < count * size)
+		tmp[i++] = 0;
+	return (tmp);
 }
