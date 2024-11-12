@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: erico-ke <erico-ke@42malaga.student.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/12 15:16:51 by erico-ke          #+#    #+#             */
-/*   Updated: 2024/11/12 18:17:32 by erico-ke         ###   ########.fr       */
+/*   Created: 2024/11/12 18:13:36 by erico-ke          #+#    #+#             */
+/*   Updated: 2024/11/12 18:19:01 by erico-ke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,47 +35,26 @@ char	*ft_newline(int fd)
 
 char	*get_next_line(int fd)
 {
-	static char	*storage;
+	static char	*storage[2048];
 	char		*trashline;
 	char		*line;
 	int			i;
 
 	trashline = ft_newline(fd);
-	if ((!trashline && !storage) || (trashline[0] == '\0' && !storage))
+	if ((!trashline && !storage[fd]) || (trashline[0] == '\0' && !storage[fd]))
 	{
 		free(trashline);
 		return (NULL);
 	}
-	trashline = ft_strjoin(storage, trashline);
+	trashline = ft_strjoin(storage[fd], trashline);
 	i = 0;
 	while (trashline[i] != '\n' && trashline[i] != '\0')
 		i++;
 	line = ft_substr(trashline, 0, i + 1);
 	if (trashline[i] == '\n')
-		storage = ft_substr(trashline, i + 1, ft_strlen(trashline) - i - 1);
+		storage[fd] = ft_substr(trashline, i + 1, ft_strlen(trashline) - i - 1);
 	else
-		storage = NULL;
+		storage[fd] = NULL;
 	free(trashline);
 	return (line);
 }
-
-/* int main()
-{
-	int fd = open("only_nl.txt", O_RDONLY);
-	char *r;
-	int i = 0;
-	while (i < 1000000)
-	{
-		r = get_next_line(fd);
-		if (r)
-		{
-			printf("%s", r);
-			free(r);
-		}
-		else
-			break;
-		i++;
-	}
-	close(fd);
-	return 0;
-}  */
