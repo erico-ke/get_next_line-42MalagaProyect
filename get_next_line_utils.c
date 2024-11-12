@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: erico-ke <erico-ke@42malaga.student.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/17 20:12:58 by erico-ke          #+#    #+#             */
-/*   Updated: 2024/11/11 03:41:44 by erico-ke         ###   ########.fr       */
+/*   Created: 2024/11/12 15:18:16 by erico-ke          #+#    #+#             */
+/*   Updated: 2024/11/12 15:21:28 by erico-ke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	}
 	str = (char *)malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!str)
-	//POSIBLE ERROR EN VEZ DE 0 ES UN FREE DE s1
 		return (0);
 	i = -1;
 	while (s1[++i])
@@ -37,6 +36,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		str[i + c] = s2[c];
 	str[i + c] = '\0';
 	free(s1);
+	free(s2);
 	return (str);
 }
 
@@ -72,11 +72,13 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 {
 	size_t	i;
 	char	*res;
+	size_t	strl;
 
+	strl = ft_strlen(s);
 	i = 0;
 	if (!s)
 		return (0);
-	if (start > ft_strlen(s))
+	if (start > strl)
 	{
 		res = malloc(sizeof(char) * (1));
 		if (!res)
@@ -84,12 +86,12 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 		res[0] = '\0';
 		return (res);
 	}
-	if (ft_strlen(s) - start < len)
-		len = ft_strlen(s) - start;
+	if (strl - start < len)
+		len = strl - start;
 	res = malloc(sizeof(char) * (len + 1));
 	if (!res)
 		return (NULL);
-	while (start < ft_strlen(s) && i < len && s[start])
+	while (start < strl && i < len && s[start])
 		res[i++] = s[start++];
 	res[i] = '\0';
 	return (res);
