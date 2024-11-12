@@ -6,7 +6,7 @@
 /*   By: erico-ke <erico-ke@42malaga.student.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:16:51 by erico-ke          #+#    #+#             */
-/*   Updated: 2024/11/12 16:09:17 by erico-ke         ###   ########.fr       */
+/*   Updated: 2024/11/12 16:23:24 by erico-ke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_newline(int fd)
 
 char	*get_next_line(int fd)
 {
-	static char	*storage = NULL;
+	static char	*storage;
 	char		*trashline;
 	char		*line;
 	int			i;
