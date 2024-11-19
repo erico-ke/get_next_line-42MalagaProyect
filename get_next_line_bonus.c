@@ -5,56 +5,107 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: erico-ke <erico-ke@42malaga.student.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/12 18:13:36 by erico-ke          #+#    #+#             */
-/*   Updated: 2024/11/12 18:19:01 by erico-ke         ###   ########.fr       */
+/*   Created: 2024/11/19 16:02:12 by erico-ke          #+#    #+#             */
+/*   Updated: 2024/11/19 16:16:32 by erico-ke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
+
+char	*ft_strdup(char *s)
+{
+	char	*dup;
+	size_t	len;
+	size_t	i;
+
+	if (!s)
+		return (NULL);
+	len = ft_strlen(s);
+	dup = ft_calloc(len + 1, sizeof(char));
+	if (!dup)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		dup[i] = s[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
+}
 
 char	*ft_newline(int fd)
 {
 	char	*buffer;
 	char	*tmp;
+	char	*result;
+	ssize_t	bytes_read;
 
-	buffer = ft_calloc((BUFFER_SIZE + 1), sizeof(char *));
-	if (read(fd, buffer, BUFFER_SIZE) <= 0)
-		return (buffer);
-	while (!ft_strchr(buffer, '\n'))
+	buffer = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
+	if (!buffer)
+		return (NULL);
+	result = NULL;
+	while (1)
 	{
-		tmp = ft_calloc((BUFFER_SIZE + 1), sizeof(char *));
-		if (read(fd, tmp, BUFFER_SIZE) <= 0)
-		{
-			free(tmp);
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (bytes_read <= 0)
 			break ;
-		}
-		buffer = ft_strjoin(buffer, tmp);
+		buffer[bytes_read] = '\0';
+		tmp = ft_strjoin(result, buffer);
+		if (!tmp)
+			return (free(buffer), free(result), NULL);
+		result = tmp;
+		if (ft_strchr(result, '\n'))
+			break ;
 	}
-	return (buffer);
+	free(buffer);
+	return (result);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*storage[2048];
-	char		*trashline;
+	static char	*s_s[2048];
+	char		*tmp;
 	char		*line;
 	int			i;
 
-	trashline = ft_newline(fd);
-	if ((!trashline && !storage[fd]) || (trashline[0] == '\0' && !storage[fd]))
-	{
-		free(trashline);
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+		return (free(s_s[fd]), s_s[fd] = NULL, NULL);
+	tmp = ft_newline(fd);
+	if (!tmp && !s_s[fd])
 		return (NULL);
-	}
-	trashline = ft_strjoin(storage[fd], trashline);
+	if (tmp)
+		s_s[fd] = ft_strjoin(s_s[fd], tmp);
+	free(tmp);
+	if (!s_s[fd] || s_s[fd][0] == '\0')
+		return (free(s_s[fd]), s_s[fd] = NULL, NULL);
 	i = 0;
-	while (trashline[i] != '\n' && trashline[i] != '\0')
+	while (s_s[fd][i] != '\n' && s_s[fd][i] != '\0')
 		i++;
-	line = ft_substr(trashline, 0, i + 1);
-	if (trashline[i] == '\n')
-		storage[fd] = ft_substr(trashline, i + 1, ft_strlen(trashline) - i - 1);
-	else
-		storage[fd] = NULL;
-	free(trashline);
+	line = ft_substr(s_s[fd], 0, i + (s_s[fd][i] == '\n'));
+	tmp = ft_substr(s_s[fd], i + (s_s[fd][i] == '\n'), ft_strlen(s_s[fd]) - i);
+	free(s_s[fd]);
+	s_s[fd] = tmp;
 	return (line);
 }
+
+/* int main()
+{
+	int fd = open("only_nl.txt", O_RDONLY);
+	char *r;
+	int i = 0;
+	while (i < 1000000)
+	{
+		r = get_next_line(fd);
+		if (r)
+		{
+			printf("%s", r);
+			free(r);
+		}
+		else
+			break;
+		i++;
+	}
+	close(fd);
+	return 0;
+}  */

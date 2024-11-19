@@ -6,56 +6,86 @@
 /*   By: erico-ke <erico-ke@42malaga.student.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:16:51 by erico-ke          #+#    #+#             */
-/*   Updated: 2024/11/12 18:17:32 by erico-ke         ###   ########.fr       */
+/*   Updated: 2024/11/19 15:59:44 by erico-ke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+char	*ft_strdup(char *s)
+{
+	char	*dup;
+	size_t	len;
+	size_t	i;
+
+	if (!s)
+		return (NULL);
+	len = ft_strlen(s);
+	dup = ft_calloc(len + 1, sizeof(char));
+	if (!dup)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		dup[i] = s[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
+}
+
 char	*ft_newline(int fd)
 {
 	char	*buffer;
 	char	*tmp;
+	char	*result;
+	ssize_t	bytes_read;
 
-	buffer = ft_calloc((BUFFER_SIZE + 1), sizeof(char *));
-	if (read(fd, buffer, BUFFER_SIZE) <= 0)
-		return (buffer);
-	while (!ft_strchr(buffer, '\n'))
+	buffer = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
+	if (!buffer)
+		return (NULL);
+	result = NULL;
+	while (1)
 	{
-		tmp = ft_calloc((BUFFER_SIZE + 1), sizeof(char *));
-		if (read(fd, tmp, BUFFER_SIZE) <= 0)
-		{
-			free(tmp);
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (bytes_read <= 0)
 			break ;
-		}
-		buffer = ft_strjoin(buffer, tmp);
+		buffer[bytes_read] = '\0';
+		tmp = ft_strjoin(result, buffer);
+		if (!tmp)
+			return (free(buffer), free(result), NULL);
+		result = tmp;
+		if (ft_strchr(result, '\n'))
+			break ;
 	}
-	return (buffer);
+	free(buffer);
+	return (result);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*storage;
-	char		*trashline;
+	char		*tmp;
 	char		*line;
 	int			i;
 
-	trashline = ft_newline(fd);
-	if ((!trashline && !storage) || (trashline[0] == '\0' && !storage))
-	{
-		free(trashline);
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+		return (free(storage), storage = NULL, NULL);
+	tmp = ft_newline(fd);
+	if (!tmp && !storage)
 		return (NULL);
-	}
-	trashline = ft_strjoin(storage, trashline);
+	if (tmp)
+		storage = ft_strjoin(storage, tmp);
+	free(tmp);
+	if (!storage || storage[0] == '\0')
+		return (free(storage), storage = NULL, NULL);
 	i = 0;
-	while (trashline[i] != '\n' && trashline[i] != '\0')
+	while (storage[i] != '\n' && storage[i] != '\0')
 		i++;
-	line = ft_substr(trashline, 0, i + 1);
-	if (trashline[i] == '\n')
-		storage = ft_substr(trashline, i + 1, ft_strlen(trashline) - i - 1);
-	else
-		storage = NULL;
-	free(trashline);
+	line = ft_substr(storage, 0, i + (storage[i] == '\n'));
+	tmp = ft_substr(storage, i + (storage[i] == '\n'), ft_strlen(storage) - i);
+	free(storage);
+	storage = tmp;
 	return (line);
 }
 

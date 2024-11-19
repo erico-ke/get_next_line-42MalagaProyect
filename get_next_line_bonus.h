@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: erico-ke <erico-ke@42malaga.student.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/12 18:14:05 by erico-ke          #+#    #+#             */
-/*   Updated: 2024/11/12 18:17:57 by erico-ke         ###   ########.fr       */
+/*   Created: 2024/11/19 16:10:45 by erico-ke          #+#    #+#             */
+/*   Updated: 2024/11/19 16:11:05 by erico-ke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,6 @@ char	*ft_strjoin(char *s1, char *s2);
 void	*ft_calloc(size_t count, size_t size);
 char	*ft_strchr(char *s, int c);
 char	*ft_substr(char *s, unsigned int start, size_t len);
+char	*ft_strdup(char *s);
+
 #endif
