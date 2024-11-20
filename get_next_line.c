@@ -6,7 +6,7 @@
 /*   By: erico-ke <erico-ke@42malaga.student.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:16:51 by erico-ke          #+#    #+#             */
-/*   Updated: 2024/11/19 15:59:44 by erico-ke         ###   ########.fr       */
+/*   Updated: 2024/11/20 16:58:54 by erico-ke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*ft_strdup(char *s)
 	return (dup);
 }
 
-char	*ft_newline(int fd)
+static char	*ft_newline(int fd)
 {
 	char	*buffer;
 	char	*tmp;

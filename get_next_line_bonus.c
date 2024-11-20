@@ -6,7 +6,7 @@
 /*   By: erico-ke <erico-ke@42malaga.student.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:02:12 by erico-ke          #+#    #+#             */
-/*   Updated: 2024/11/19 16:16:32 by erico-ke         ###   ########.fr       */
+/*   Updated: 2024/11/20 17:05:35 by erico-ke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*ft_strdup(char *s)
 	return (dup);
 }
 
-char	*ft_newline(int fd)
+static char	*ft_newline(int fd)
 {
 	char	*buffer;
 	char	*tmp;
@@ -88,24 +88,3 @@ char	*get_next_line(int fd)
 	s_s[fd] = tmp;
 	return (line);
 }
-
-/* int main()
-{
-	int fd = open("only_nl.txt", O_RDONLY);
-	char *r;
-	int i = 0;
-	while (i < 1000000)
-	{
-		r = get_next_line(fd);
-		if (r)
-		{
-			printf("%s", r);
-			free(r);
-		}
-		else
-			break;
-		i++;
-	}
-	close(fd);
-	return 0;
-}  */
