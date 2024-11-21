@@ -6,7 +6,7 @@
 /*   By: erico-ke <erico-ke@42malaga.student.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:18:16 by erico-ke          #+#    #+#             */
-/*   Updated: 2024/11/20 16:58:42 by erico-ke         ###   ########.fr       */
+/*   Updated: 2024/11/21 17:55:46 by erico-ke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ char	*ft_strchr(char *s, int c)
 {
 	int	i;
 
+	if (!s)
+		return (NULL);
 	i = 0;
 	while (s[i] != '\0')
 	{
@@ -66,7 +68,7 @@ char	*ft_strchr(char *s, int c)
 	}
 	if ((char)c == '\0')
 		return (&((char *)s)[i]);
-	return (0);
+	return (NULL);
 }
 
 char	*ft_substr(char *s, unsigned int start, size_t len)

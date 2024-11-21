@@ -6,7 +6,7 @@
 /*   By: erico-ke <erico-ke@42malaga.student.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:02:12 by erico-ke          #+#    #+#             */
-/*   Updated: 2024/11/20 17:05:35 by erico-ke         ###   ########.fr       */
+/*   Updated: 2024/11/21 17:57:58 by erico-ke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static char	*ft_newline(int fd)
 	if (!buffer)
 		return (NULL);
 	result = NULL;
-	while (1)
+	while (ft_strchr(result, '\n'))
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read <= 0)
@@ -55,8 +55,6 @@ static char	*ft_newline(int fd)
 		if (!tmp)
 			return (free(buffer), free(result), NULL);
 		result = tmp;
-		if (ft_strchr(result, '\n'))
-			break ;
 	}
 	free(buffer);
 	return (result);
@@ -69,7 +67,7 @@ char	*get_next_line(int fd)
 	char		*line;
 	int			i;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (free(s_s[fd]), s_s[fd] = NULL, NULL);
 	tmp = ft_newline(fd);
 	if (!tmp && !s_s[fd])
