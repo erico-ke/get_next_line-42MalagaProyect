@@ -6,7 +6,7 @@
 /*   By: erico-ke <erico-ke@42malaga.student.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:16:51 by erico-ke          #+#    #+#             */
-/*   Updated: 2024/11/26 14:59:06 by erico-ke         ###   ########.fr       */
+/*   Updated: 2024/11/26 15:01:59 by erico-ke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ char	*get_next_line(int fd)
 	backup = ft_get_rest(backup);
 	return (line);
 }
-
 
 /* int main()
 {
