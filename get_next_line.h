@@ -6,7 +6,7 @@
 /*   By: erico-ke <erico-ke@42malaga.student.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:17:45 by erico-ke          #+#    #+#             */
-/*   Updated: 2024/11/19 15:56:16 by erico-ke         ###   ########.fr       */
+/*   Updated: 2024/11/26 14:59:29 by erico-ke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,9 @@
 # include <limits.h>
 
 char	*get_next_line(int fd);
-size_t	ft_strlen(char *s);
-char	*ft_strjoin(char *s1, char *s2);
-void	*ft_calloc(size_t count, size_t size);
 char	*ft_strchr(char *s, int c);
-char	*ft_substr(char *s, unsigned int start, size_t len);
-char	*ft_strdup(char *s);
+void	*ft_calloc(size_t nmemb, size_t size);
+char	*ft_strjoin(char *s1, char *s2);
+size_t	ft_strlen(char *s);
 
 #endif

@@ -6,86 +6,109 @@
 /*   By: erico-ke <erico-ke@42malaga.student.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:16:51 by erico-ke          #+#    #+#             */
-/*   Updated: 2024/11/21 17:59:07 by erico-ke         ###   ########.fr       */
+/*   Updated: 2024/11/26 14:59:06 by erico-ke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strdup(char *s)
+static char	*ft_get_read(int fd, char *backup)
 {
-	char	*dup;
-	size_t	len;
-	size_t	i;
+	int		check_read;
+	char	*buf;
 
-	if (!s)
+	buf = ft_calloc(sizeof(char), (BUFFER_SIZE + 1));
+	if (!buf)
 		return (NULL);
-	len = ft_strlen(s);
-	dup = ft_calloc(len + 1, sizeof(char));
-	if (!dup)
-		return (NULL);
-	i = 0;
-	while (i < len)
+	check_read = 1;
+	while (!(ft_strchr(backup, '\n')) && check_read != 0)
 	{
-		dup[i] = s[i];
-		i++;
+		check_read = read(fd, buf, BUFFER_SIZE);
+		if (check_read < 0)
+		{
+			free(buf);
+			free(backup);
+			return (NULL);
+		}
+		buf[check_read] = 0;
+		backup = ft_strjoin(backup, buf);
 	}
-	dup[i] = '\0';
-	return (dup);
+	free(buf);
+	return (backup);
 }
 
-static char	*ft_newline(int fd)
+static char	*ft_get_line(char *backup)
 {
-	char	*buffer;
-	char	*tmp;
-	char	*result;
-	ssize_t	bytes_read;
+	int		i;
+	char	*line;
 
-	buffer = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
-	if (!buffer)
+	i = 0;
+	if (backup[0] == 0)
 		return (NULL);
-	result = NULL;
-	while (!ft_strchr(result, '\n'))
+	while (backup[i] && (backup[i] != '\n'))
+		i++;
+	line = ft_calloc(sizeof(char), (i + 2));
+	if (!line)
+		return (NULL);
+	i = 0;
+	while (backup[i] && (backup[i] != '\n'))
 	{
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (bytes_read <= 0)
-			break ;
-		buffer[bytes_read] = '\0';
-		tmp = ft_strjoin(result, buffer);
-		if (!tmp)
-			return (free(buffer), free(result), NULL);
-		result = tmp;
+		line[i] = backup[i];
+		i++;
 	}
-	free(buffer);
-	return (result);
+	if (backup[i] == '\n')
+	{
+		line[i] = backup[i];
+		i++;
+	}
+	line[i] = '\0';
+	return (line);
+}
+
+static char	*ft_get_rest(char *backup)
+{
+	int		i;
+	int		rest_i;
+	char	*rest;
+
+	i = 0;
+	while (backup[i] && (backup[i] != '\n'))
+		i++;
+	if (!backup[i])
+	{
+		free(backup);
+		return (NULL);
+	}
+	rest = malloc(sizeof(char) * (ft_strlen(backup) - i + 1));
+	if (!rest)
+	{
+		free(rest);
+		return (NULL);
+	}
+	++i;
+	rest_i = 0;
+	while (backup[i])
+		rest[rest_i++] = backup[i++];
+	rest[rest_i] = '\0';
+	free(backup);
+	return (rest);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*storage;
-	char		*tmp;
 	char		*line;
-	int			i;
+	static char	*backup;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (free(storage), storage = NULL, NULL);
-	tmp = ft_newline(fd);
-	if (!tmp && !storage)
 		return (NULL);
-	if (tmp)
-		storage = ft_strjoin(storage, tmp);
-	free(tmp);
-	if (!storage || storage[0] == '\0')
-		return (free(storage), storage = NULL, NULL);
-	i = 0;
-	while (storage[i] != '\n' && storage[i] != '\0')
-		i++;
-	line = ft_substr(storage, 0, i + (storage[i] == '\n'));
-	tmp = ft_substr(storage, i + (storage[i] == '\n'), ft_strlen(storage) - i);
-	free(storage);
-	storage = tmp;
+	backup = ft_get_read(fd, backup);
+	if (!backup)
+		return (NULL);
+	line = ft_get_line(backup);
+	backup = ft_get_rest(backup);
 	return (line);
 }
+
 
 /* int main()
 {
