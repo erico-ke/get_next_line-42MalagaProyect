@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erico-ke <erico-ke@42malaga.student.com    +#+  +:+       +#+        */
+/*   By: erico-ke <erico-ke@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:16:51 by erico-ke          #+#    #+#             */
-/*   Updated: 2024/11/26 15:01:59 by erico-ke         ###   ########.fr       */
+/*   Updated: 2024/11/29 14:54:16 by erico-ke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,18 +113,13 @@ char	*get_next_line(int fd)
 {
 	int fd = open("only_nl.txt", O_RDONLY);
 	char *r;
-	int i = 0;
-	while (i < 1000000)
+	r = get_next_line(fd);
+	while (r)
 	{
+		free(r);
 		r = get_next_line(fd);
-		if (r)
-		{
-			printf("%s", r);
-			free(r);
-		}
-		else
-			break;
-		i++;
+		printf("%s", r);
+
 	}
 	close(fd);
 	return 0;
