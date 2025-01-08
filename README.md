@@ -1,4 +1,6 @@
 # get\_next\_line
+![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white)
+![Makefile](https://img.shields.io/badge/Makefile-ffffff?style=for-the-badge&color=f38f3b)
 
 get\_next\_line es un proyecto de 42 que consiste en implementar una función capaz de leer una línea completa desde un descriptor de archivo (file descriptor), incluso si la lectura debe realizarse en varias llamadas. El objetivo es mejorar la comprensión del manejo de archivos y memoria dinámica en C.
 
