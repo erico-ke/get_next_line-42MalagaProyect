@@ -17,7 +17,7 @@ get\_next\_line es un proyecto de 42 que consiste en implementar una función ca
 Clona este repositorio en tu directorio local:
 
 ```bash
-$ git clone https://github.com/erico-ke/get_next_line.git
+$ git clone https://github.com/erico-ke/get_next_line-42MalagaProyect.git
 $ cd get_next_line
 ```
 
